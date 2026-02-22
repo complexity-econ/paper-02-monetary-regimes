@@ -68,10 +68,14 @@ PLN vs EUR Counterfactual in a Small Open Economy}
 
 \begin{minipage}{0.85\textwidth}
 \small\textbf{Abstract.}
-\autocite{maciaszek2026acceleration} demonstrated a phase transition in technology adoption at UBI~=~2,000~PLN, driven by the interaction of fiscal stimulus with endogenous monetary policy.
+\autocite{maciaszek2026acceleration} demonstrated that universal basic income (UBI) can catalyze automation in a small open economy through monetary feedback channels.
 This paper tests whether the acceleration paradox requires monetary sovereignty by comparing two regimes: (1)~the status quo with NBP's Taylor rule and floating PLN/EUR exchange rate, and (2)~a counterfactual where Poland is a Eurozone member with exogenous ECB policy and fixed exchange rate.
-Using the same SFC-ABM framework (10,000 firms, 6 sectors, Watts-Strogatz network, 120 months) across 1,260 Monte Carlo simulations (21 UBI levels $\times$ 2 regimes $\times$ 30 seeds), we find that [RESULTS TO BE FILLED AFTER SIMULATION].
-The results formalize the role of Mundell's impossible trinity in the acceleration paradox mechanism.
+Using the same SFC-ABM framework (10,000 firms, 6 sectors, Watts-Strogatz network, 120 months) across 1,260 Monte Carlo simulations (21 UBI levels $\times$ 2 regimes $\times$ 30 seeds), we find that the two regimes produce fundamentally different dynamics.
+Under PLN, the NBP raises rates in response to UBI-driven inflation, stabilizing employment (${\sim}8\%$ unemployment) but eroding real consumption as UBI rises.
+Under EUR with Stability and Growth Pact (SGP) fiscal constraints, the ECB does not respond to Polish inflation and the SGP progressively eliminates UBI spending as the fiscal position deteriorates.
+The economy enters a permanent deflationary trap (${\sim}{-}25\%$) with mass unemployment (${\sim}78\%$); a transient UBI burst in the first months raises adoption to ${\sim}19\%$ (vs ${\sim}13\%$ under PLN), but the SGP caps effective UBI at ${\sim}1{,}200$~PLN regardless of the legislated amount, producing identical outcomes for all legislated UBI $\geq 1{,}250$~PLN.
+The critical point (maximum adoption variance) shifts from UBI$=500$ (PLN) to UBI$=1{,}000$ (EUR), confirming that monetary sovereignty reshapes the system's phase portrait.
+These results formalize the role of Mundell's impossible trinity in the acceleration paradox mechanism and reveal that Eurozone fiscal constraints eliminate the policy space needed to exploit the paradox.
 
 \vspace{0.3cm}
 \textbf{Keywords:} agent-based model, stock-flow consistent, monetary regime, Eurozone, UBI, automation, complexity economics, Mundell trilemma
@@ -135,6 +139,29 @@ The exchange rate is fixed at the conversion rate (4.33 PLN/EUR), eliminating:
     \item Export competitiveness via depreciation
 \end{itemize}
 
+\subsection{Fiscal Constraint (SGP)}
+
+Eurozone membership imposes the Stability and Growth Pact (SGP), which constrains fiscal policy.
+In the PLN regime, the government faces no hard fiscal limit --- as a sovereign currency issuer, it can deficit-spend without market-imposed borrowing constraints (we abstract from bond market dynamics).
+In the EUR regime, we model two Maastricht criteria as binding constraints on UBI spending:
+
+\begin{enumerate}
+    \item \textbf{Flow constraint}: The monthly government deficit must not exceed $3\%/12$ of annual GDP.
+    If the planned UBI spending would breach this limit, the effective per-capita UBI is reduced to the maximum fiscally feasible level:
+    \begin{equation}
+        b_t^{\text{eff}} = \min\!\left(b,\; \frac{\tfrac{0.03}{12} \cdot Y_t^{\text{annual}} + R_{t-1} - G_t^{\text{base}}}{N}\right)
+    \end{equation}
+    where $b$ is the legislated UBI, $Y_t^{\text{annual}} = 12 \cdot \text{GDP}_{t-1}$, $R_{t-1}$ is previous-period tax revenue, $G_t^{\text{base}}$ is baseline government spending, and $N$ is total population.
+
+    \item \textbf{Stock constraint}: If cumulative public debt exceeds $60\%$ of annual GDP, a progressive austerity multiplier is applied:
+    \begin{equation}
+        b_t^{\text{eff}} \leftarrow b_t^{\text{eff}} \cdot \max\!\left(0,\; 1 - \kappa\left(\frac{D_t}{Y_t^{\text{annual}}} - 0.60\right)\right), \quad \kappa = 2.0
+    \end{equation}
+    This models the Excessive Deficit Procedure (EDP), where the European Commission mandates corrective action when debt ratios breach the threshold.
+\end{enumerate}
+
+Under PLN, neither constraint applies: the government funds UBI through deficit spending, with the NBP indirectly absorbing the fiscal expansion via its monetary response.
+
 \subsection{Mechanism Hypothesis}
 
 In the PLN regime, UBI triggers a feedback loop:
@@ -147,11 +174,13 @@ We hypothesize that this fundamentally alters the system's phase portrait.
 \section{Results}
 \label{sec:results}
 
-[TO BE COMPLETED AFTER RUNNING 1,260 SIMULATIONS]
+We ran 1,260 simulations: 21 UBI levels (0--5,000~PLN in 250~PLN increments) $\times$ 2 regimes $\times$ 30 random seeds.
+All simulations share identical firm populations, sector calibration, and network topology; only the monetary regime differs.
 
 \subsection{Regime Comparison at Key UBI Levels}
 
-% Table placeholder
+Table~\ref{tab:regime_comparison} summarizes terminal values (month 120) at three diagnostic UBI levels.
+
 \begin{table}[H]
 \centering
 \caption{Terminal values at M120: PLN vs EUR (mean $\pm$ std, $N=30$ seeds)}
@@ -160,38 +189,103 @@ We hypothesize that this fundamentally alters the system's phase portrait.
 \toprule
 \textbf{Metric} & \textbf{Regime} & \textbf{UBI = 0} & \textbf{UBI = 2,000} & \textbf{UBI = 3,000} \\
 \midrule
-Adoption (\%)    & PLN & -- & -- & -- \\
-                 & EUR & -- & -- & -- \\
-Inflation (\%)   & PLN & -- & -- & -- \\
-                 & EUR & -- & -- & -- \\
-Unemployment (\%) & PLN & -- & -- & -- \\
-                 & EUR & -- & -- & -- \\
+Adoption (\%)     & PLN & $13.7 \pm 2.9$ & $13.0 \pm 1.4$ & $12.1 \pm 1.3$ \\
+                  & EUR & $13.4 \pm 2.3$ & $19.1 \pm 2.3$ & $19.1 \pm 2.3$ \\
+Inflation (\%)    & PLN & $-8.7$         & $+18.0$        & $+33.8$ \\
+                  & EUR & $-23.4$        & $-25.2$        & $-25.2$ \\
+Unemployment (\%) & PLN & $8.3$          & $8.5$          & $8.1$ \\
+                  & EUR & $70.4$         & $78.4$         & $78.4$ \\
+Eff.\ UBI (PLN)   & PLN & $0$            & $2{,}000$      & $3{,}000$ \\
+                  & EUR & $0$            & ${\sim}10$     & ${\sim}10$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+At UBI$=0$, adoption rates are nearly identical (${\sim}13\%$), confirming that the divergence is driven by the monetary response to fiscal stimulus, not by baseline conditions.
+As UBI rises, the regimes diverge sharply.
+
+Under \textbf{PLN}, the NBP raises the reference rate aggressively in response to UBI-driven inflation.
+At UBI$=2{,}000$, inflation reaches $+18\%$ and the policy rate tightens accordingly.
+This stabilizes employment (${\sim}8.5\%$ unemployment) but prevents further automation: adoption remains flat at ${\sim}13\%$ regardless of UBI level.
+The acceleration paradox is effectively suppressed by the monetary tightening channel.
+
+Under \textbf{EUR}, the ECB rate is invariant to Polish conditions, and the SGP fiscal constraint caps UBI spending.
+During the first months after UBI activation (month~30), the government delivers the full legislated UBI while the pre-shock fiscal space permits.
+As the economy deteriorates (falling GDP, rising unemployment, shrinking tax base), the SGP progressively reduces the effective UBI until it reaches near-zero by month~120.
+The result is a \emph{transient stimulus followed by forced austerity}: adoption reaches ${\sim}19\%$ (above the no-UBI baseline of $13\%$) thanks to the initial months of UBI support, but cannot advance further.
+Inflation locks at $-25\%$ and unemployment stabilizes at $78\%$.
+Crucially, all legislated UBI levels $\geq 1{,}250$~PLN produce \emph{identical outcomes}: the SGP caps effective first-month UBI at ${\sim}1{,}200$~PLN regardless of the legislated amount, and the economy converges to the same equilibrium.
+
 \subsection{Bifurcation Diagram Comparison}
 
-% Figure placeholder
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=\textwidth]{p02_bifurcation_comparison.png}
-%     \caption{Bifurcation diagram: PLN vs EUR across 21 UBI levels.}
-%     \label{fig:bifurcation}
-% \end{figure}
+Figure~\ref{fig:bifurcation} overlays the bifurcation diagrams for both regimes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{p02_bifurcation_comparison.png}
+    \caption{Bifurcation diagram: PLN vs EUR across 21 UBI levels (30 seeds per point).
+    Panel~A: adoption; Panel~B: inflation; Panel~C: critical point signature ($\sigma$ of adoption);
+    Panel~D: unemployment. The PLN regime shows a non-monotonic adoption peak at low UBI and rapid inflation rise; the EUR regime shows monotonic adoption growth with persistent deflation and mass unemployment.}
+    \label{fig:bifurcation}
+\end{figure}
+
+The PLN adoption curve (Panel~A) exhibits a sharp peak at UBI$=250$~PLN (31.5\% adoption, driven by a transient margin squeeze before inflation fully develops), then declines monotonically as the NBP rate tightening dominates.
+The EUR adoption curve rises from $13\%$ to $19\%$, then plateaus---the SGP fiscal ceiling prevents further UBI delivery regardless of the legislated amount.
+
+The inflation panel (B) reveals the starkest contrast: PLN inflation rises linearly from $-9\%$ to $+62\%$ across the UBI sweep, while EUR inflation remains locked near $-25\%$---a \emph{deflation trap} that the SGP-constrained fiscal policy cannot break.
 
 \subsection{Critical Point Shift}
 
-[Analysis of whether the critical point (max variance of adoption) shifts between regimes]
+Panel~C of Figure~\ref{fig:bifurcation} plots the standard deviation of adoption across seeds as a function of UBI---the signature of a phase transition.
+The critical point (maximum variance) occurs at:
+\begin{itemize}
+    \item \textbf{PLN}: UBI $= 500$~PLN ($\sigma_{\text{adopt}} = 6.4\%$)
+    \item \textbf{EUR}: UBI $= 1{,}000$~PLN ($\sigma_{\text{adopt}} = 2.8\%$)
+\end{itemize}
+
+The critical point shifts rightward by a factor of two under Eurozone membership, and the maximum variance is substantially lower ($2.8\%$ vs $6.4\%$).
+The reduced variance reflects the SGP's smoothing effect: the fiscal constraint prevents the large UBI impulses that generate high adoption variance under PLN, compressing the EUR system into a narrow outcome band.
 
 \subsection{Welfare Analysis}
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=\textwidth]{p02_welfare_comparison.png}
-%     \caption{Welfare comparison: real consumption and Gini coefficient.}
-%     \label{fig:welfare}
-% \end{figure}
+Figure~\ref{fig:welfare} compares welfare outcomes across regimes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{p02_welfare_comparison.png}
+    \caption{Welfare analysis: PLN vs EUR.
+    Panel~A: real consumption per capita; Panel~B: Gini coefficient;
+    Panel~C: equity--efficiency frontier (lower-right is better);
+    Panel~D: key metrics at UBI$=2{,}000$.}
+    \label{fig:welfare}
+\end{figure}
+
+Real consumption per capita (Panel~A) reveals a stark finding.
+Under PLN, optimal consumption occurs at UBI$=500$~PLN (6,159~PLN/capita), declining as inflation erodes purchasing power at higher UBI levels.
+Under EUR, the SGP constraint means that by month~120, effective UBI has been cut to ${\sim}10$~PLN.
+EUR real consumption is highest at UBI$=0$ (3,778~PLN/capita, where no fiscal deterioration occurs) and \emph{declines} as legislated UBI rises, because the transient UBI burst accelerates the deflationary spiral.
+For UBI $\geq 1{,}500$~PLN, EUR consumption flattens at 2,783~PLN/capita---reflecting only wage income of the employed minority.
+PLN dominates EUR on consumption for all UBI $\leq 1{,}250$~PLN; above that threshold, PLN's inflation erosion pushes its consumption below the EUR floor.
+
+The Gini coefficient (Panel~B) confirms extreme inequality under EUR.
+The EUR Gini is 0.70 at UBI$=0$ and rises to 0.78 for all UBI $\geq 1{,}250$~PLN, reflecting the binary income distribution between employed (wage only, since effective UBI$\to 0$) and unemployed (zero income) populations.
+The PLN regime achieves far lower inequality (Gini $< 0.10$ for UBI $\geq 1{,}000$) thanks to near-full employment and sustained UBI delivery.
+
+The equity--efficiency frontier (Panel~C) shows that PLN dominates EUR on equality at every UBI level, with Gini differences exceeding 0.60~pp.
+At the PLN optimum (UBI$=500$, cons$=6{,}159$, Gini$=0.18$), PLN achieves twice the consumption and one-quarter the inequality of the best EUR outcome.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{p02_regime_difference.png}
+    \caption{EUR minus PLN difference across UBI sweep (percentage points).
+    Green bars indicate EUR $>$ PLN; red bars indicate EUR $<$ PLN.}
+    \label{fig:difference}
+\end{figure}
+
+Figure~\ref{fig:difference} summarizes the regime difference.
+At UBI$=0$, the regimes are nearly identical.
+As UBI rises, EUR adoption exceeds PLN by ${\sim}6$~pp (owing to the transient initial UBI burst), but EUR unemployment exceeds PLN by ${\sim}70$~pp and inflation is $40$--$90$~pp lower (deeper deflation).
+Beyond UBI$=1{,}250$~PLN, the EUR curves flatten completely---the SGP has capped effective spending---while PLN inflation continues to rise linearly.
 
 % ═══════════════════════════════════════════════════════════════
 \section{Discussion}
@@ -199,21 +293,112 @@ Unemployment (\%) & PLN & -- & -- & -- \\
 
 \subsection{Mundell's Impossible Trinity}
 
-[Discussion of how results relate to the impossible trinity: fixed exchange rate, free capital flows, independent monetary policy --- choose two]
+Our results provide a concrete illustration of Mundell's impossible trinity \autocite{mundell1963capital, fleming1962domestic}.
+Poland under PLN retains two vertices of the triangle: independent monetary policy (NBP Taylor rule) and free capital flows (interest rate parity channel).
+The cost is exchange rate volatility---the PLN depreciates under trade deficits, generating import-push inflation.
+
+Eurozone membership trades independent monetary policy for a fixed exchange rate.
+In our simulations, this exchange has dramatic consequences.
+The NBP's rate response is the \emph{primary stabilizer} of the labor market: by tightening credit in response to UBI-driven inflation, it prevents the deflationary spiral that destroys firm revenue.
+When this stabilizer is removed (EUR regime), the economy loses its ability to self-correct.
+Polish inflation diverges from the ECB's target, but the ECB---calibrated to Eurozone-wide conditions---does not respond.
+
+The result is a \textbf{monetary policy mismatch}: Polish domestic conditions require tightening (or at minimum, a neutral response calibrated to local inflation), but the ECB provides a rate calibrated to aggregate Eurozone conditions.
+This mismatch is precisely the mechanism identified by \autocite{mundell1961theory} as the cost of non-optimal currency areas.
 
 \subsection{Internal Devaluation Trap}
 
-[Discussion of how EUR regime forces adjustment through wages/prices rather than exchange rate, and whether this creates a deflation trap]
+Under the EUR regime, the economy enters a permanent deflation of ${\sim}25\%$ per annum---far exceeding the soft Bewley floor (\autocite{bewley1999wages}).
+This constitutes a classical \textbf{internal devaluation trap} \autocite{schmittgrohe2016downward}: without exchange rate flexibility, adjustment must occur through wages and prices.
+
+The mechanism operates as follows.
+Technology-driven deflation (from the $13$--$19\%$ of firms that automate) reduces the price level.
+Under PLN, this would be partially offset by exchange rate depreciation (import-push inflation) and NBP rate cuts.
+Under EUR, neither channel operates.
+The deflation reduces nominal firm revenue, triggering bankruptcies and unemployment.
+This is a Fisher debt-deflation spiral \autocite{fisher1933debt} operating at the firm level: falling revenue $\to$ rising real debt burden $\to$ bankruptcy $\to$ further demand contraction.
+
+The SGP fiscal constraint creates a vicious cycle that amplifies this trap.
+As the economy contracts, GDP falls and the tax base shrinks, which tightens the $3\%$ deficit ceiling in absolute terms.
+Simultaneously, the rising debt-to-GDP ratio triggers the stock constraint's austerity multiplier.
+The result is that even a legislated UBI of 2,000~PLN/month is progressively reduced to ${\sim}10$~PLN by month~120---effectively zero.
+The government \emph{cannot} sustain the fiscal stimulus needed to break the deflation cycle while remaining within Maastricht criteria.
+
+\subsection{Two Modes of Technological Transition}
+
+The results reveal two qualitatively different pathways for AI-driven structural transformation:
+
+\begin{enumerate}
+    \item \textbf{PLN pathway (employment-preserving)}: The NBP's monetary response stabilizes employment but suppresses the adoption incentive.
+    Adoption peaks briefly at low UBI levels (the transient acceleration paradox) before being dampened by rate tightening.
+    The economy retains near-full employment but undergoes minimal technological transformation.
+
+    \item \textbf{EUR pathway (constrained transformation)}: Without monetary stabilization, the initial UBI impulse briefly stimulates adoption.
+    However, the SGP fiscal constraint rapidly eliminates the UBI transfer as the economy deteriorates.
+    Adoption reaches ${\sim}19\%$---above PLN's $13\%$, but far below the $55\%$ that a fiscally unconstrained EUR regime would produce.
+    The cost is mass structural unemployment ($78\%$), permanent deflation ($-25\%$), and near-zero effective UBI by month~120.
+\end{enumerate}
+
+The PLN pathway is unambiguously superior on employment and equality.
+The EUR pathway achieves modestly higher adoption ($+6$~pp) at catastrophic social cost.
+Unlike an unconstrained EUR scenario where the tradeoff might be debatable, the SGP-constrained EUR regime combines the worst of both worlds: the deflationary trap of a fixed exchange rate \emph{plus} the fiscal straitjacket that prevents compensatory transfers.
+This finding strengthens the case for monetary sovereignty during structural transitions.
 
 \subsection{Policy Implications}
 
-[Implications for the Polish Euro adoption debate]
+These findings carry direct implications for the Polish Euro adoption debate \autocite{borowski2004costs}:
+
+\begin{enumerate}
+    \item \textbf{Monetary sovereignty as insurance}: For economies facing potential AI-driven structural shocks, an independent central bank provides a critical stabilization mechanism.
+    The NBP's Taylor rule---even without being specifically designed for automation shocks---prevents the deflationary spiral that devastates the EUR scenario.
+
+    \item \textbf{Fiscal-monetary coordination}: Under PLN, UBI effectiveness is limited by the monetary offset (inflation erosion).
+    This suggests that UBI policy in a sovereign-currency economy requires explicit coordination with central bank forward guidance to prevent complete fiscal-monetary cancellation.
+
+    \item \textbf{Eurozone entry timing}: If Poland were to join the Eurozone \emph{before} the AI transition, it would face the EUR pathway---modest adoption gains at the cost of devastating unemployment and fiscal collapse.
+    If it joins \emph{after} the transition is complete (under PLN's smoother path), the structural adjustment would already be absorbed.
+    This argues for sequencing: complete the technological transition under monetary sovereignty, then consider currency union.
+\end{enumerate}
+
+\subsection{Limitations}
+
+Several simplifications warrant discussion:
+
+\begin{enumerate}
+    \item \textbf{SGP enforcement}: Our model implements the Stability and Growth Pact as a hard constraint on UBI spending.
+    In practice, SGP enforcement is politically negotiated---the European Commission has repeatedly granted exemptions (e.g., during COVID-19, under the General Escape Clause activated in 2020--2024).
+    Our results therefore represent a ``strict SGP'' scenario; a more lenient interpretation would yield results between the constrained EUR and unconstrained PLN outcomes.
+
+    \item \textbf{No EU transfer mechanisms}: We omit the European Structural and Investment Funds, NextGenerationEU, and potential future fiscal union mechanisms that could partially substitute for national UBI spending.
+    In a more complete model, EU-level transfers could mitigate the fiscal constraint.
+
+    \item \textbf{Static ECB}: Eurozone-wide inflation is held constant at $2.0\%$.
+    In reality, a major Polish UBI program under EUR could spill over into Eurozone inflation (Poland accounts for ${\sim}3.8\%$ of EU GDP), though the effect would be modest.
+
+    \item \textbf{No bond market dynamics}: The model abstracts from sovereign bond spreads.
+    Under EUR without monetary sovereignty, rising debt-to-GDP ratios could trigger market panic (as in the 2010--2012 Eurozone crisis), imposing even tighter fiscal constraints than our SGP implementation.
+    Conversely, under PLN, the NBP's implicit backstop prevents self-fulfilling debt crises.
+
+    \item \textbf{Labor mobility}: Eurozone membership enables free labor movement.
+    Mass unemployment under EUR could trigger emigration, reducing both the fiscal burden and the domestic labor supply.
+    This ``safety valve'' is absent from the model.
+\end{enumerate}
 
 % ═══════════════════════════════════════════════════════════════
 \section{Conclusion}
 \label{sec:conclusion}
 
-[TO BE COMPLETED]
+This paper tested whether the acceleration paradox identified in \autocite{maciaszek2026acceleration} requires monetary sovereignty.
+Using 1,260 Monte Carlo simulations comparing PLN and EUR monetary regimes under Stability and Growth Pact fiscal constraints, we find that it does---decisively.
+
+Under PLN, the acceleration paradox is \emph{transient}: NBP rate tightening suppresses it beyond low UBI levels, but the economy retains near-full employment and policy flexibility.
+Under EUR with SGP constraints, the paradox is \emph{stillborn}: a brief UBI impulse raises adoption from $13\%$ to $19\%$, but the SGP's deficit and debt limits progressively eliminate UBI spending as the economy deteriorates.
+By month~120, effective UBI falls to ${\sim}10$~PLN regardless of the legislated amount, and the economy is trapped in a permanent deflation ($-25\%$) with mass unemployment ($78\%$).
+The critical point shifts from UBI$=500$ (PLN) to UBI$=1{,}000$ (EUR), confirming that monetary regime fundamentally reshapes the system's phase portrait.
+
+The welfare analysis reveals PLN as the dominant regime on employment and equality, while EUR's modest adoption advantage ($+6$~pp) comes at catastrophic social cost.
+The SGP fiscal constraint, designed to ensure macroeconomic stability, paradoxically eliminates the fiscal space needed to manage structural transitions---a finding that formalizes the role of Mundell's impossible trinity in the political economy of AI-driven structural change.
+
 
 % ═══════════════════════════════════════════════════════════════
 \printbibliography

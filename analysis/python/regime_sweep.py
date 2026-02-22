@@ -33,6 +33,9 @@ def load_sweep(regime):
             continue
         df = pd.read_csv(fpath, sep=";", decimal=",")
         for _, row in df.iterrows():
+            eff_bdp = row.get('EffectiveBDP', bdp)
+            if pd.isna(eff_bdp):
+                eff_bdp = bdp
             rows.append({
                 'BDP': bdp,
                 'Adoption': row['TotalAdoption'] * 100,
@@ -41,6 +44,7 @@ def load_sweep(regime):
                 'ExRate': row['ExRate'],
                 'RefRate': row['RefRate'] * 100,
                 'NPL': row['NPL'] * 100,
+                'EffectiveBDP': eff_bdp,
             })
     return pd.DataFrame(rows)
 
@@ -156,19 +160,22 @@ print("SWEEP COMPARISON SUMMARY")
 print("=" * 100)
 print(f"{'BDP':>6s} | {'PLN Adopt':>9s} {'±σ':>5s} {'EUR Adopt':>9s} {'±σ':>5s} | "
       f"{'PLN Infl':>9s} {'EUR Infl':>9s} | "
-      f"{'PLN Unemp':>9s} {'EUR Unemp':>9s}")
-print("-" * 100)
+      f"{'PLN Unemp':>9s} {'EUR Unemp':>9s} | "
+      f"{'EUR EffBDP':>10s}")
+print("-" * 115)
 
 for bdp in BDP_LEVELS:
     pln_sub = data_pln[data_pln['BDP'] == bdp]
     eur_sub = data_eur[data_eur['BDP'] == bdp]
     if pln_sub.empty or eur_sub.empty:
         continue
+    eur_eff = eur_sub['EffectiveBDP'].mean() if 'EffectiveBDP' in eur_sub.columns else bdp
     print(f"{bdp:6d} | "
           f"{pln_sub.Adoption.mean():9.1f} {pln_sub.Adoption.std():5.1f} "
           f"{eur_sub.Adoption.mean():9.1f} {eur_sub.Adoption.std():5.1f} | "
           f"{pln_sub.Inflation.mean():9.1f} {eur_sub.Inflation.mean():9.1f} | "
-          f"{pln_sub.Unemployment.mean():9.1f} {eur_sub.Unemployment.mean():9.1f}")
+          f"{pln_sub.Unemployment.mean():9.1f} {eur_sub.Unemployment.mean():9.1f} | "
+          f"{eur_eff:10.0f}")
 
 # Critical points
 for data, label in [(data_pln, 'PLN'), (data_eur, 'EUR')]:

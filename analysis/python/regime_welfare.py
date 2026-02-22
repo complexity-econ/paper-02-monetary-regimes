@@ -30,7 +30,10 @@ def load_term(regime, bdp):
     return pd.read_csv(d / f"sweep_{regime}_{bdp}_terminal.csv", sep=";", decimal=",")
 
 def compute_welfare(df, bdp_amount):
-    """Compute welfare metrics per seed."""
+    """Compute welfare metrics per seed.
+    Uses EffectiveBDP from simulation (after SGP fiscal constraint) if available,
+    otherwise falls back to legislated bdp_amount.
+    """
     rows = []
     for _, r in df.iterrows():
         unemp = r['Unemployment']
@@ -39,8 +42,13 @@ def compute_welfare(df, bdp_amount):
         n_emp = int((1 - unemp) * POPULATION)
         n_unemp = POPULATION - n_emp
 
-        y_emp = wage + bdp_amount
-        y_unemp = bdp_amount
+        # Use actual BDP delivered (after SGP constraint) if available
+        actual_bdp = r.get('EffectiveBDP', bdp_amount)
+        if pd.isna(actual_bdp):
+            actual_bdp = bdp_amount
+
+        y_emp = wage + actual_bdp
+        y_unemp = actual_bdp
 
         total_income = n_emp * y_emp + n_unemp * y_unemp
         real_consumption = total_income * MPC / max(0.01, price)
