@@ -1,0 +1,221 @@
+\documentclass[11pt,a4paper]{article}
+
+% Fonts and encoding
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+
+% Page geometry
+\usepackage[margin=2.5cm]{geometry}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{../figures/}}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% Hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% Bibliography
+\usepackage[backend=bibtex,style=authoryear,sorting=nyt,maxnames=3]{biblatex}
+\addbibresource{references.bib}
+
+% Line spacing
+\usepackage{setspace}
+\onehalfspacing
+
+% Section formatting
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+
+% Headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Monetary Regime and the Acceleration Paradox}
+\fancyhead[R]{\small\thepage}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Monetary Regime and the Acceleration Paradox:\\
+PLN vs EUR Counterfactual in a Small Open Economy}
+
+\vspace{0.8cm}
+
+{\large Mateusz Maciaszek}
+
+\vspace{0.3cm}
+
+{\small February 2026}
+
+\vspace{0.5cm}
+
+\begin{minipage}{0.85\textwidth}
+\small\textbf{Abstract.}
+\autocite{maciaszek2026acceleration} demonstrated a phase transition in technology adoption at UBI~=~2,000~PLN, driven by the interaction of fiscal stimulus with endogenous monetary policy.
+This paper tests whether the acceleration paradox requires monetary sovereignty by comparing two regimes: (1)~the status quo with NBP's Taylor rule and floating PLN/EUR exchange rate, and (2)~a counterfactual where Poland is a Eurozone member with exogenous ECB policy and fixed exchange rate.
+Using the same SFC-ABM framework (10,000 firms, 6 sectors, Watts-Strogatz network, 120 months) across 1,260 Monte Carlo simulations (21 UBI levels $\times$ 2 regimes $\times$ 30 seeds), we find that [RESULTS TO BE FILLED AFTER SIMULATION].
+The results formalize the role of Mundell's impossible trinity in the acceleration paradox mechanism.
+
+\vspace{0.3cm}
+\textbf{Keywords:} agent-based model, stock-flow consistent, monetary regime, Eurozone, UBI, automation, complexity economics, Mundell trilemma
+
+\vspace{0.3cm}
+\textbf{JEL:} E17, E42, E52, E58, F33, O33
+\end{minipage}
+\end{center}
+
+\vspace{1cm}
+
+% ═══════════════════════════════════════════════════════════════
+\section{Introduction}
+\label{sec:intro}
+
+The acceleration paradox --- the finding that universal basic income (UBI) catalyzes rather than responds to automation --- was established in \autocite{maciaszek2026acceleration} using a stock-flow consistent agent-based model calibrated to the Polish economy.
+The mechanism depends critically on two channels:
+\begin{enumerate}
+    \item \textbf{Interest rate channel}: The central bank (NBP) raises rates in response to UBI-driven inflation, tightening credit conditions and forcing firms toward capital-light automation.
+    \item \textbf{Exchange rate channel}: Currency depreciation from the trade deficit raises import costs, further squeezing firm margins and accelerating the technology adoption decision.
+\end{enumerate}
+
+Both channels presuppose monetary sovereignty --- an independent central bank with a floating exchange rate.
+If Poland were a Eurozone member, the ECB would set interest rates based on Eurozone-wide inflation (largely unaffected by Polish domestic policy), and there would be no exchange rate adjustment mechanism.
+
+This raises a fundamental question: \textbf{Is monetary sovereignty a prerequisite for the acceleration paradox?}
+
+We test this by running the identical SFC-ABM under two monetary regimes and comparing the resulting bifurcation diagrams, adoption dynamics, and welfare outcomes.
+
+% ═══════════════════════════════════════════════════════════════
+\section{Model Extension}
+\label{sec:model}
+
+We extend the model from \autocite{maciaszek2026acceleration} with a single structural change: the monetary regime.
+All other parameters (firm heterogeneity, sector calibration, network topology, fiscal policy) remain identical.
+
+\subsection{PLN Regime (Baseline)}
+
+The NBP sets the reference rate using a Taylor rule:
+\begin{equation}
+    r_t^{\text{NBP}} = \rho \cdot r_{t-1} + (1-\rho)\left[ r^* + \alpha \max(0, \pi_t - \bar\pi) + \beta \max(0, \Delta e_t) \right]
+\end{equation}
+where $\rho = 0.70$ (inertia), $r^* = 4\%$ (neutral), $\alpha = 1.5$, $\beta = 0.8$, $\bar\pi = 2.5\%$.
+The exchange rate adjusts endogenously via balance-of-payments:
+\begin{equation}
+    \Delta e_t = -\gamma \cdot \frac{\text{BoP}_t}{\text{GDP}_t}, \quad \gamma = 0.02
+\end{equation}
+
+\subsection{EUR Regime (Counterfactual)}
+
+The ECB sets rates based on Eurozone-wide inflation $\pi^{\text{EZ}}$, which is exogenous to Poland:
+\begin{equation}
+    r_t^{\text{ECB}} = \rho^{\text{ECB}} \cdot r_{t-1} + (1-\rho^{\text{ECB}})\left[ r^{*,\text{ECB}} + \alpha^{\text{ECB}} \max(0, \pi^{\text{EZ}} - \bar\pi^{\text{ECB}}) \right]
+\end{equation}
+where $\rho^{\text{ECB}} = 0.85$, $r^{*,\text{ECB}} = 2.5\%$, $\alpha^{\text{ECB}} = 1.5$, $\bar\pi^{\text{ECB}} = 2.0\%$, $\pi^{\text{EZ}} = 2.0\%$ (constant).
+
+The exchange rate is fixed at the conversion rate (4.33 PLN/EUR), eliminating:
+\begin{itemize}
+    \item Exchange rate pass-through to inflation
+    \item Interest rate parity capital flows
+    \item Export competitiveness via depreciation
+\end{itemize}
+
+\subsection{Mechanism Hypothesis}
+
+In the PLN regime, UBI triggers a feedback loop:
+$\text{UBI} \to \pi\!\uparrow \to r^{\text{NBP}}\!\uparrow \to \text{credit}\!\downarrow \to \text{automation}\!\uparrow \to \text{tech deflation}$.
+
+In the EUR regime, this loop is broken: Polish inflation does not affect the ECB rate, so the credit channel remains loose regardless of domestic conditions.
+We hypothesize that this fundamentally alters the system's phase portrait.
+
+% ═══════════════════════════════════════════════════════════════
+\section{Results}
+\label{sec:results}
+
+[TO BE COMPLETED AFTER RUNNING 1,260 SIMULATIONS]
+
+\subsection{Regime Comparison at Key UBI Levels}
+
+% Table placeholder
+\begin{table}[H]
+\centering
+\caption{Terminal values at M120: PLN vs EUR (mean $\pm$ std, $N=30$ seeds)}
+\label{tab:regime_comparison}
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Metric} & \textbf{Regime} & \textbf{UBI = 0} & \textbf{UBI = 2,000} & \textbf{UBI = 3,000} \\
+\midrule
+Adoption (\%)    & PLN & -- & -- & -- \\
+                 & EUR & -- & -- & -- \\
+Inflation (\%)   & PLN & -- & -- & -- \\
+                 & EUR & -- & -- & -- \\
+Unemployment (\%) & PLN & -- & -- & -- \\
+                 & EUR & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Bifurcation Diagram Comparison}
+
+% Figure placeholder
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{p02_bifurcation_comparison.png}
+%     \caption{Bifurcation diagram: PLN vs EUR across 21 UBI levels.}
+%     \label{fig:bifurcation}
+% \end{figure}
+
+\subsection{Critical Point Shift}
+
+[Analysis of whether the critical point (max variance of adoption) shifts between regimes]
+
+\subsection{Welfare Analysis}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{p02_welfare_comparison.png}
+%     \caption{Welfare comparison: real consumption and Gini coefficient.}
+%     \label{fig:welfare}
+% \end{figure}
+
+% ═══════════════════════════════════════════════════════════════
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Mundell's Impossible Trinity}
+
+[Discussion of how results relate to the impossible trinity: fixed exchange rate, free capital flows, independent monetary policy --- choose two]
+
+\subsection{Internal Devaluation Trap}
+
+[Discussion of how EUR regime forces adjustment through wages/prices rather than exchange rate, and whether this creates a deflation trap]
+
+\subsection{Policy Implications}
+
+[Implications for the Polish Euro adoption debate]
+
+% ═══════════════════════════════════════════════════════════════
+\section{Conclusion}
+\label{sec:conclusion}
+
+[TO BE COMPLETED]
+
+% ═══════════════════════════════════════════════════════════════
+\printbibliography
+
+\end{document}
