@@ -1,5 +1,7 @@
 # Paper-02: Monetary Regime and the Acceleration Paradox
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18740933.svg)](https://doi.org/10.5281/zenodo.18740933)
+
 **PLN vs EUR counterfactual**: Does the acceleration paradox require monetary sovereignty?
 
 ## Summary
