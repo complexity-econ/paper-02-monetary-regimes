@@ -5,11 +5,12 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Maciaszek
     given-names: Mateusz
-    orcid: ""
 version: 1.0.0
+doi: 10.5281/zenodo.18740933
 date-released: 2026-02-22
 license: MIT
 repository-code: https://github.com/complexity-econ/paper-02-monetary-regimes
+url: https://doi.org/10.5281/zenodo.18740933
 keywords:
   - agent-based model
   - stock-flow consistent
