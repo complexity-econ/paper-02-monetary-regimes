@@ -92,5 +92,8 @@ MIT
 
 ## Related
 
-- [Paper-01: The Acceleration Paradox](https://github.com/complexity-econ/paper-01-acceleration-paradox) — foundation model
-- [Core engine](https://github.com/complexity-econ/core) — reusable SFC-ABM
+- [Paper-01: The Acceleration Paradox](https://github.com/complexity-econ/paper-01-acceleration-paradox)
+- [Paper-03: Empirical σ Estimation](https://github.com/complexity-econ/paper-03-empirical-sigma)
+- [Paper-04: Phase Diagram & Universality](https://github.com/complexity-econ/paper-04-phase-diagram)
+- [Paper-05: Endogenous Technology & Networks](https://github.com/complexity-econ/paper-05-endogenous)
+- [Core engine](https://github.com/complexity-econ/core)
