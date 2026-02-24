@@ -54,6 +54,38 @@ simulations/scripts/    Sweep runner
 - **Analysis**: Python 3 (matplotlib, seaborn, scipy, numpy, pandas)
 - **Paper**: XeLaTeX + biblatex
 
+## Figures
+
+### Bifurcation Comparison
+
+![bifurcation](figures/p02_bifurcation_comparison.png)
+**PLN vs EUR across the full BDP sweep.** Adoption, inflation, variance, and unemployment bifurcation diagrams for both regimes. PLN critical point at BDP = 500; EUR at BDP = 1000. The variance peak (susceptibility proxy) is sharper under PLN.
+
+### Time Series
+
+![timeseries](figures/p02_regime_timeseries.png)
+**Dynamic response over 120 months** for three BDP levels (0, 2000, 3000 PLN). PLN (blue) shows flexible adjustment — inflation rises but employment recovers. EUR (magenta) shows extreme deflation and persistent unemployment due to fixed exchange rate and SGP constraint.
+
+### Regime Detail
+
+![detail](figures/p02_regime_detail.png)
+**Six monetary channels at BDP = 2000 PLN.** Exchange rate, central bank rate, NPL ratio, wages, public debt, and price level. The EUR regime hits the SGP debt ceiling, capping effective UBI at ~1200 PLN — the fiscal constraint dominates everything downstream.
+
+### Regime Difference
+
+![difference](figures/p02_regime_difference.png)
+**EUR minus PLN difference across the BDP sweep.** Green = EUR outperforms, red = EUR underperforms. EUR achieves lower unemployment only at very high BDP (>3000), at the cost of extreme deflation and suppressed adoption everywhere else.
+
+### Phase Space
+
+![phasespace](figures/p02_regime_phasespace.png)
+**Terminal state scatter plots** (adoption × inflation) for three BDP levels. At BDP = 2000, PLN seeds spread across high-adoption/high-inflation territory while EUR seeds cluster in low-adoption/extreme-deflation — two fundamentally different macroeconomic regimes.
+
+### Welfare Comparison
+
+![welfare](figures/p02_welfare_comparison.png)
+**Welfare metrics across the full sweep.** Real consumption, Gini, Pareto frontier, and summary bars. PLN dominates EUR in real consumption at nearly every BDP level. The Pareto frontier shows PLN achieves a strictly better equity-efficiency trade-off.
+
 ## License
 
 MIT
